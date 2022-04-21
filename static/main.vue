@@ -1,25 +1,27 @@
 <template>
   <van-row>
     <van-nav-bar title="基于Vue的界面" />
-
     <van-tabs v-model="activeTab">
-      <van-tab title="配置">
-        <van-image src="imageData" />
+      <van-tab title="进度">
+        <van-image @click="imageClick" :src="imageData" />
         <van-row type="flex" justify="center">
           <van-button type="primary" @click="imageClick" style="margin-top: 12px;">获取</van-button>
         </van-row>
       </van-tab>
+      <van-tab title="提交">
+        <van-form @submit="onSubmit">
+          <van-cell-group inset>
+            <van-field v-model="username" name="用户名" label="用户名" placeholder="用户名" :rules="[{ required: true, message: '请填写用户名' }]" />
 
-      <van-tab title="运行">
-        <van-cell title="运行日志" is-link @click="showLog" />
-
+          </van-cell-group>
+          <div style="margin: 16px;">
+            <van-button round block type="primary" native-type="submit">
+              提交
+            </van-button>
+          </div>
+        </van-form>
       </van-tab>
 
-      <van-tab title="关于">
-        <van-cell value="运行环境" title="Auto.js Pro" label="Node.js + WebView + Android" />
-        <van-cell title="Vue.js" label="渐进式JavaScript框架" is-link @click="openVueWebsite" />
-        <van-cell title="Vant" label="轻量、可靠的移动端 Vue 组件库" is-link @click="openVantWebsite" />
-      </van-tab>
     </van-tabs>
   </van-row>
 </template>
@@ -28,9 +30,13 @@ export default {
   data() {
     return {
       imageData: "",
+      username: "",
     };
   },
   methods: {
+    onSubmit(values) {
+      console.log("submit", values);
+    },
     imageClick() {
       console.log("点击了");
       window.axios.get("/download").then((res) => {
