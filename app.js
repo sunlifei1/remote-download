@@ -3,12 +3,17 @@ const path = require('path');
 const mime = require('mime-types'); //需npm安装
 const Koa = require('koa');
 const app = new Koa();
+const static = require('koa-static')
 const { main, downloadshot } = require("./puppeteer")
 // logger
 const router = require('./router')
 
-main()
+const staticPath = './static'
 
+main()
+app.use(static(
+    path.join(__dirname, staticPath)
+))
 app.use(router.routes())
 app.use(router.allowedMethods())
 app.use(async (ctx, next) => {
