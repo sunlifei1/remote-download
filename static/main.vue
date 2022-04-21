@@ -4,24 +4,15 @@
 
     <van-tabs v-model="activeTab">
       <van-tab title="配置">
-        <van-cell-group title="权限">
-          <van-cell title="前台服务" label="用于截图权限、脚本保活">
-            <van-switch v-model="foregroundServiceEnabled" @input="onForegroundServiceCheckChanged" />
-          </van-cell>
-        </van-cell-group>
-        <van-cell-group title="配置">
-          <van-cell title="某个开关">
-            <van-switch v-model="a_switch" />
-          </van-cell>
-          <van-field v-model="count" label="次数" placeholder="请输入次数" />
-        </van-cell-group>
+        <van-image src="imageData" />
+        <van-row type="flex" justify="center">
+          <van-button type="primary" @click="imageClick" style="margin-top: 12px;">获取</van-button>
+        </van-row>
       </van-tab>
 
       <van-tab title="运行">
         <van-cell title="运行日志" is-link @click="showLog" />
-        <van-row type="flex" justify="center">
-          <van-button type="primary" @click="run" style="margin-top: 12px;">运行</van-button>
-        </van-row>
+
       </van-tab>
 
       <van-tab title="关于">
@@ -36,27 +27,18 @@
 export default {
   data() {
     return {
-      foregroundServiceEnabled: false,
-      activeTab: 0,
-      a_switch: true,
-      count: 1,
+      imageData: "",
     };
   },
   methods: {
-    onForegroundServiceCheckChanged: function (checked) {
-      $autojs.invoke("set-foreground", checked);
-    },
-    showLog: function () {
-      $autojs.invoke("show-log");
-    },
-    openVantWebsite: function () {
-      $autojs.send("open-url", "https://vant-contrib.gitee.io/vant/#/zh-CN/");
-    },
-    openVueWebsite: function () {
-      $autojs.send("open-url", "https://cn.vuejs.org/");
-    },
-    run: function () {
-      console.log("count =", this.count);
+    imageClick() {
+      console.log("点击了");
+      window.axios.get("/download").then((res) => {
+        console.log(res.data);
+        this.imageData = "data:image/png;base64," + res.data.data;
+        console.log(res.data.data);
+        console.dir(this.imageData);
+      });
     },
   },
   created: function () {},
