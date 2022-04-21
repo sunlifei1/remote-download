@@ -1,5 +1,6 @@
 const path = require('path');
 const puppeteer = require('puppeteer');
+const fs = require('fs');
 let myBrowser
 let page1
 let downloadPage
@@ -24,9 +25,11 @@ async function main() {
 async function downloadshot() {
     await downloadPage.screenshot({ path: 'downloadPage.png' });
     // const inputElement = await downloadPage.$('#description');
-    const inputElement = await downloadPage.$$('#content');
-    console.log(inputElement)
-    return inputElement
+    // 将html保存到一个文件中
+    const html = await downloadPage.content();
+    fs.writeFile('page.html', html, _ => console.log('HTML saved'));
+
+
 }
 async function newDownload(url) {
     await page1.goto(url).catch(() => { });

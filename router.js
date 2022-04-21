@@ -32,7 +32,7 @@ router.get('/index', function (ctx) {
 })
 router.post('/downloadUrl', function (ctx) {
 
-    console.log(ctx.request.body)
+    // console.log(ctx.request.body)
     newDownload(ctx.request.body.username)
     ctx.body = {
         code: 200,
