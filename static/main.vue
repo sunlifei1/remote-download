@@ -1,6 +1,6 @@
 <template>
   <van-row>
-    <van-nav-bar title="基于Vue的界面" />
+
     <van-tabs v-model="activeTab">
       <van-tab title="进度">
         <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
