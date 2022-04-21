@@ -3,10 +3,9 @@
     <van-nav-bar title="基于Vue的界面" />
     <van-tabs v-model="activeTab">
       <van-tab title="进度">
-        <van-image @click="imageClick" :src="imageData" />
-        <van-row type="flex" justify="center">
-          <van-button type="primary" @click="imageClick" style="margin-top: 12px;">获取</van-button>
-        </van-row>
+        <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+          <van-image :src="imageData" />
+        </van-pull-refresh>
       </van-tab>
       <van-tab title="提交">
         <van-form @submit="onSubmit">
@@ -29,11 +28,22 @@
 export default {
   data() {
     return {
+      count: 0,
+      isLoading: false,
       imageData: "",
       username: "",
     };
   },
   methods: {
+    onRefresh() {
+      console.log("点击了");
+      window.axios.get("/download").then((res) => {
+        this.imageData = "data:image/png;base64," + res.data.data;
+
+        this.isLoading = false;
+        window.vant.Toast("刷新成功");
+      });
+    },
     onSubmit(values) {
       console.log("submit", values);
       window
@@ -46,17 +56,11 @@ export default {
         })
         .then((res) => {
           console.log(res.data);
+          this.username = "";
+          window.vant.Toast("提交成功");
         });
     },
-    imageClick() {
-      console.log("点击了");
-      window.axios.get("/download").then((res) => {
-        console.log(res.data);
-        this.imageData = "data:image/png;base64," + res.data.data;
-        console.log(res.data.data);
-        console.dir(this.imageData);
-      });
-    },
+    imageClick() {},
   },
   created: function () {},
 };
