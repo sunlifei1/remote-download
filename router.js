@@ -1,6 +1,6 @@
 const fs = require('fs')
 const Router = require('koa-router')
-const { main, downloadshot } = require("./puppeteer")
+const { main, downloadshot, newDownload } = require("./puppeteer")
 const router = new Router()
 const path = require('path');
 const mime = require('mime-types'); //需npm安装
@@ -29,6 +29,16 @@ router.get('/index', function (ctx) {
     let mimeType = mime.lookup(filePath); //读取图片文件类型
     ctx.set('content-type', mimeType); //设置返回类型
     ctx.body = file; //返回图片
+})
+router.post('/downloadUrl', function (ctx) {
+
+    console.log(ctx.request.body)
+    newDownload(ctx.request.body.username)
+    ctx.body = {
+        code: 200,
+        message: "提交成功"
+    }; //返回图片
+
 })
 
 module.exports = router

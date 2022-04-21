@@ -16,8 +16,20 @@ async function main() {
     page1 = await myBrowser.newPage();
     downloadPage = await myBrowser.newPage();
     // 空白页刚问该指定网址
-    await page1.goto('https://www.meleedrive.com/file/Aof3cCDCxw/Rjh4Z6g.html').catch(() => { });
+    await page1.goto('https://www.baidu.com').catch(() => { });
+    await downloadPage.goto('chrome://downloads/').catch(() => { });
+    // await page1.screenshot({ path: 'screenshot.png' });
 
+}
+async function downloadshot() {
+    await downloadPage.screenshot({ path: 'downloadPage.png' });
+    // const inputElement = await downloadPage.$('#description');
+    const inputElement = await downloadPage.$$('#content');
+    console.log(inputElement)
+    return inputElement
+}
+async function newDownload(url) {
+    await page1.goto(url).catch(() => { });
     setTimeout(() => {
         page1.evaluate(() => {
             const titleDom = document.querySelector('div#down_link>a').click();
@@ -31,19 +43,7 @@ async function main() {
             arr[3].click()
         });
     }, 80000)
-
-    await downloadPage.goto('chrome://downloads/').catch(() => { });
-    // await page1.screenshot({ path: 'screenshot.png' });
-
 }
-async function downloadshot() {
-    await downloadPage.screenshot({ path: 'downloadPage.png' });
-
-    // const inputElement = await downloadPage.$('#description');
-    const inputElement = await downloadPage.$$('#content');
-    console.log(inputElement)
-    return inputElement
-}
-module.exports = { main, downloadshot }
+module.exports = { main, downloadshot, newDownload }
 
 

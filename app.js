@@ -9,8 +9,9 @@ const { main, downloadshot } = require("./puppeteer")
 const router = require('./router')
 
 const staticPath = './static'
-
+const bodyParser = require('koa-bodyparser')
 main()
+app.use(bodyParser())
 app.use(static(
     path.join(__dirname, staticPath)
 ))

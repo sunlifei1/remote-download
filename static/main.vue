@@ -11,7 +11,7 @@
       <van-tab title="提交">
         <van-form @submit="onSubmit">
           <van-cell-group inset>
-            <van-field v-model="username" name="用户名" label="用户名" placeholder="用户名" :rules="[{ required: true, message: '请填写用户名' }]" />
+            <van-field v-model="username" name="username" label="用户名" placeholder="用户名" :rules="[{ required: true, message: '请填写用户名' }]" />
 
           </van-cell-group>
           <div style="margin: 16px;">
@@ -36,6 +36,17 @@ export default {
   methods: {
     onSubmit(values) {
       console.log("submit", values);
+      window
+        .axios({
+          method: "post",
+          url: "/downloadUrl",
+          data: {
+            username: values.username,
+          },
+        })
+        .then((res) => {
+          console.log(res.data);
+        });
     },
     imageClick() {
       console.log("点击了");
