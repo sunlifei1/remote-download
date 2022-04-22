@@ -12,7 +12,8 @@ async function main() {
         // 指定该浏览器的路径
         // executablePath: chromiumPath,
         // 是否为无头浏览器模式，默认为无头浏览器模式
-        headless: false
+        headless: false,
+        args: ['--no-sandbox']
     });
     page1 = await myBrowser.newPage();
     downloadPage = await myBrowser.newPage();
