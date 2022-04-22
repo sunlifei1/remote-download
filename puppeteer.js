@@ -10,7 +10,7 @@ async function main() {
     // 启动chrome浏览器
     myBrowser = await puppeteer.launch({
         // 指定该浏览器的路径
-        executablePath: chromiumPath,
+        // executablePath: chromiumPath,
         // 是否为无头浏览器模式，默认为无头浏览器模式
         headless: false
     });
